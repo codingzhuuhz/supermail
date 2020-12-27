@@ -1,0 +1,45 @@
+@import "./normalize.css" ;
+/*css中可以进行变量的定义了*!*/
+:root{
+    --color-text: #666 ;
+    --color-high-text:#ff5777 ;
+    --color-tint: #ff8198 ;
+    --color-background: #fff ;
+    --font-size:14px ;
+    --line-height: 1.5 ;
+}
+*,
+*::before,
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+}
+body{
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC",Arial;
+    user-select: none;/*禁止用户在页面上选中文字或者图片*/
+    background-color: var(--color-background);
+    color:var(--color-text) ;
+    width:100VW ;
+}
+/*装饰超链接*/
+a{
+    color:var(--color-text) ;
+    text-decoration: none;
+}
+.clear-fix::after{
+    clear:both ;
+    content:'' ;
+    display: block;
+    width:0 ;
+    height: 0;
+    visibility: hidden;
+}
+/*对对象进行大小 的控制*/
+.clear-fix{
+    zoom:1 ;
+}
+.left{
+    float: left;
+}
+
