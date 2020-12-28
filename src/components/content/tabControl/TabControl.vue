@@ -37,6 +37,7 @@ name: "TabControl",
   height: 40px;
   line-height: 40px;
   text-align: center;
+  background-color: #ffffff;
 }
 .tab-control-item{
   flex:1;

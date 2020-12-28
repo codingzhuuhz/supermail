@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="enterDetail">
-    <img :src="goodsItem.gurl" alt="">
+    <img :src="goodsItem.gurl" alt=""  @load="imgItemLoad">
     <div class="good-info" >
       <p>{{goodsItem.gname}}</p>
       <span class="price">{{goodsItem.gnewprice}}</span>
@@ -21,6 +21,12 @@ name: "GoodsListItem",
     }
   },
   methods:{
+  // img.onload = function (){}  这是图片原生的图片加载事件
+     imgItemLoad(){
+       this.$bus.$emit("imgItemLoading")
+      // console.log("----")
+    },
+
     enterDetail(gid){
       console.log("---");
        this.$router.push('/detail/'+this.goodsItem.gid) ;
@@ -28,6 +34,7 @@ name: "GoodsListItem",
     }
   }
 }
+
 </script>
 
 <style scoped>
