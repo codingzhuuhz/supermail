@@ -41,7 +41,7 @@ name: "Home",
       srollLongStatus:false,
       tabOffsetTop:0,
       iscrollY:false,
-      saveY:0
+      saveCurrentY:0
     }
   },
   components:{
@@ -68,13 +68,14 @@ name: "Home",
     })
   },
   activated(){
-    this.$refs.scroll.scroll.scrollTo(0,this.saveY,0)
+    this.$refs.scroll.scroll.scrollTo(0,this.saveCurrentY,0)
+
+    this.$refs.scroll.scroll.refresh()
   },
   deactivated(){
-    this.saveY = this.$refs.scroll.scroll.y
+    this.saveCurrentY = this.$refs.scroll.scroll?this.$refs.scroll.scroll.y:0
   },
   methods:{
-
     swiperImgLoad(){
       this.tabOffsetTop  = this.$refs.tabControl2.$el.offsetTop;
     },
@@ -115,7 +116,10 @@ name: "Home",
     getHomeMultiGoods(type){
         const page = this.goods[type].page+1 ;
         getHomeGoods(page,type).then(res =>{
-          this.goods[type].list.push(...res.data.content)
+          if(res.data.content!==null)
+            this.goods[type].list.push(...res.data.content)
+          else
+            console.log("没有更多了")
           this.goods[type].page+=1
           this.$refs.scroll.scroll.finishPullUp() ;
           console.log(this.goods[type].list)
