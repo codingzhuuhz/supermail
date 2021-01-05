@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar>
+    <nav-bar id="detail-nav-bar">
       <div slot="left" class="back" @click="backClick"><img src="~assets/img/common/back.svg" alt=""></div>
       <div slot="center" class="title">
         <div v-for="(item,index) in title" @click="titleClick(index)" :class="{active: index==currentIndex}" class="title-item">{{item}}</div>
@@ -38,6 +38,11 @@ name: "DetailNavBar",
 </script>
 
 <style scoped>
+#detail-nav-bar{
+  position: relative;
+  z-index: 1;
+  background-color: #fff;
+}
 .title{
   display: flex;
 }

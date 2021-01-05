@@ -1,21 +1,23 @@
 <template>
-<div v-if="Object.keys(goods).length !==0" class="base-info">
-   <div class="info-title">{{goods.title}}</div>
-  <div class="info-price">
-    <span class="n-price">{{goods.newprice}}</span>
-    <span class="o-price">{{goods.oldprice}}</span>
+<div v-if="Object.keys(detailInfo).length !==0" class="goods-info">
+  <div class="info-desc clear-fix">
+    <div class="start">
+    </div>
+    <div class="desc">{{detailInfo.gintroduce}}</div>
+    <div class="end"></div>
+
   </div>
-  <div class="info-other">
-    <span>销量 {{goods.sellnum}}</span>
-    <span>库存 {{goods.storenum}}</span>
+  <div class="info-list">
+    <img v-for="(item,index) in detailInfo.introurls" :src="item" alt="">
   </div>
 </div>
-</template>s
+</template>
+
 <script>
 export default {
-name: "DetailGoodInfo",
+  name: "DetailGoodInfo",
   props:{
-    goods:{
+    detailInfo:{
       type:Object,
       default(){
         return {}
@@ -23,38 +25,47 @@ name: "DetailGoodInfo",
     }
   }
 }
-
 </script>
+
 <style scoped>
-.base-info{
-  margin-top: 15px;
-  padding: 0 8px;
-  color:#999 ;
+.goods-info{
+
+  padding: 20px 0;
   border-bottom: 5px solid #f2f5f8;
 }
-.info-title{
-  color:#222 ;
+.info-desc{
+  padding: 0 1px 15px;
 }
-.info-price{
-  margin-top: 10px;
+.info-desc .start ,.info-desc .end{
+  width: 90px;
+  height: 1px;
+  background-color: #a3a3a5;
+  position:relative;
 }
-.info-price .n-price{
-  font-size: 24px;
-  color:var(--color-high-text)
+.info-desc .start{
+  float: left;
 }
-.info-price .o-price{
-  font-size: 13px;
-  margin-left: 5px;
-  text-decoration: line-through;
+.info-desc .end{
+  float: right;
 }
-.info-other{
-  margin-top: 15px;
-  /*计算行间距*/
-  line-height: 30px;
-  display: flex;
-  /*rgba()这个表示的前三个表示颜色 最后一个表示 透明度*/
-  border-bottom: 1px solid rgba(100,100,100,0.1);
-  justify-content: space-between;
+/*用它来做了一个小方块*/
+.info-desc .start::before,.info-desc .end::after{
+  content: '' ;
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #333;
+  bottom: 0;
 }
-
+/*设置小方块的位置*/
+.info-desc .end::after{
+  right: 0;
+}
+.info-desc .desc{
+  padding: 15px 0;
+  font-size: 14px;
+}
+.info-list img{
+  width: 100%;
+}
 </style>
