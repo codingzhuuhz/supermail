@@ -1,41 +1,13 @@
 <template>
   <div id="detail">
     <detail-nav-bar/>
-    <scroll id="content">
+    <scroll id="content" ref="scroll">
       <detail-swiper :top-images="topImg"></detail-swiper>
       <detail-base-info :goods="goods"/>
       <detail-shop-info :shop="shop"/>
-      <detail-good-info :detailInfo="detailInfo"/>
+      <detail-good-info :detailInfo="detailInfo" ref="detailImg" @DetailSwiperGoodImg="DetailSwiperGoodImg"/>
       <detail-comment-info :comment="comment"/>
-      <ul>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-        <li>1</li>
-      </ul>
+
     </scroll>
   </div>
 </template>
@@ -48,6 +20,7 @@ import DetailSwiper from "@/views/detail/childComps/DetailSwiper";
 import DetailShopInfo from "@/views/detail/childComps/DetailShopInfo";
 import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 import Scroll from "@/components/common/scroll/Scroll";
+import {mixin} from "@/common/mixin";
 import {getGoodDetailInfo,Shop,Good} from "@/network/detail";
 import DetailBaseInfo from "@/views/detail/childComps/DetailBaseInfo";
 import DetailGoodInfo from "@/views/detail/childComps/DetailGoodInfo";
@@ -61,7 +34,9 @@ name: "Detail",
       goods:{},
       shop:{},
       detailInfo:{},
-      comment:[]
+      comment:[],
+      itemImgListener:null,
+     // topoffset:0
     }
   },
   components:{
@@ -84,6 +59,21 @@ name: "Detail",
       this.detailInfo = res.data.goodInfo ;
       this.comment = res.data.comment ;
     })
+  },
+  methods:{
+    DetailSwiperGoodImg(){
+      this.$refs.scroll.scroll.refresh() ;
+      // this.topoffset = this.refs.
+    }
+  },
+  mixins: [mixin],//将mouted中重复的内容抽取出来然后混入到mouted中
+  mounted() {
+  },
+  deactivated() {
+    console.log("这个方法此时不被触发")
+  },
+  destroyed(){
+    this.$bus.$off('imgItemLoading',this.itemImgListener)
   }
 }
 </script>

@@ -8,7 +8,7 @@
 
   </div>
   <div class="info-list">
-    <img v-for="(item,index) in detailInfo.introurls" :src="item" alt="">
+    <img v-for="(item,index) in detailInfo.introurls" @load="DetailSwiperGoodImg" :src="item" alt="">
   </div>
 </div>
 </template>
@@ -22,6 +22,11 @@ export default {
       default(){
         return {}
       }
+    }
+  },
+  methods:{
+    DetailSwiperGoodImg(){
+      this.$emit("DetailSwiperGoodImg") ;
     }
   }
 }

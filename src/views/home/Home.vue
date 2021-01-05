@@ -24,6 +24,8 @@ import GoodsList from "@/components/content/goods/GoodsList";
 import TabControl from "@/components/content/tabControl/TabControl";
 import Scroll from '@/components/common/scroll/Scroll' ;
 import BackTop from "@/components/content/BackTop/BackTop";
+import {debounce} from "@/common/utils";
+import {mixin} from "@/common/mixin";
 import {getHomeMultidata,getHomeGoods} from "@/network/home";
 
 export default {
@@ -41,7 +43,8 @@ name: "Home",
       srollLongStatus:false,
       tabOffsetTop:0,
       iscrollY:false,
-      saveCurrentY:0
+      saveCurrentY:0,
+      itemImgListener:null
     }
   },
   components:{
@@ -60,12 +63,13 @@ name: "Home",
     this.getHomeMultiGoods('new') ;
     this.getHomeMultiGoods('hot') ;
   },
+  mixins: [mixin],
   // created 和 mounted create执行的时候组件已经加载完毕 mouted 执行的时候组件已经挂载完毕
   mounted() {
-    const refresh = this.debounce(this.$refs.scroll.refresh,800) ;
-    this.$bus.$on("imgItemLoading",() =>{
-      refresh() ;
-    })
+  //debouce 对this.$refs.scroll.refresh 函数进行防抖动操作
+  //   const refresh = debounce(this.$refs.scroll.refresh,800) ;
+  //   this.itemImgListener = () => {refresh()}
+  //   this.$bus.$on("imgItemLoading",this.itemImgListener)
   },
   activated(){
     this.$refs.scroll.scroll.scrollTo(0,this.saveCurrentY,0)
@@ -73,21 +77,16 @@ name: "Home",
     this.$refs.scroll.scroll.refresh()
   },
   deactivated(){
+  // 1保存y值
     this.saveCurrentY = this.$refs.scroll.scroll?this.$refs.scroll.scroll.y:0
+    // 2 取消全局事件的监听 因为使用了公共组件bus 取消事件监听的对应的函数 this.itemImgListener
+    this.$bus.$off('imgItemLoading',this.itemImgListener)
   },
   methods:{
     swiperImgLoad(){
       this.tabOffsetTop  = this.$refs.tabControl2.$el.offsetTop;
     },
-    debounce(func,delay){
-      let timer = null
-      return function (...args){
-        if(timer) clearTimeout(timer)
-          timer  = setTimeout(() => {
-            func.apply(this,args)
-          },delay)
-      }
-    },
+
     pullingLoading(){
       this.getHomeMultiGoods(this.currentType) ;
       // this.$refs.scroll.scroll.refresh() ;

@@ -31,9 +31,25 @@ name: "DetailCommentInfo",
   padding: 10px 15px 0;
   margin-top: 10px;
 }
+
 .top-info img{
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   border-radius: 40px;
+
+}
+.top-info{
+  display: flex;
+  line-height: 30px;
+  align-items: center;
+}
+.top-info .commentName{
+  vertical-align:center ;
+  margin-left: 10px;
+}
+.bottom-info{
+  margin-top: 15px;
+  font-size: 15px;
+  line-height: 20px;
 }
 </style>
