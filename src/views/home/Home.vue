@@ -84,6 +84,7 @@ name: "Home",
   },
   methods:{
     swiperImgLoad(){
+      // $el 获取根主键
       this.tabOffsetTop  = this.$refs.tabControl2.$el.offsetTop;
     },
 
@@ -101,6 +102,7 @@ name: "Home",
     },
     tabClick(index){
       if(index==0){this.currentType='pop'}else if(index==1){this.currentType='new'}else{this.currentType='hot'}
+      //使两个tabBar中的算选择的类型的索引保持一致
       this.$refs.tabControl1.currentIndex = index ;
       this.$refs.tabControl2.currentIndex = index ;
       },
