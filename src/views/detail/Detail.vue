@@ -1,15 +1,18 @@
 <template>
   <div id="detail">
+
     <detail-nav-bar @titleClick="titleClick" :currentIndex="currentIndex"/>
+
     <scroll id="content" ref="scroll" @scroll="contentScroll" :probe-type="3">
       <detail-swiper :top-images="topImg"></detail-swiper>
       <detail-base-info  :goods="goods"/>
       <detail-shop-info ref="shop" :shop="shop"/>
       <detail-good-info ref="detail" :detailInfo="detailInfo"  @DetailSwiperGoodImg="DetailSwiperGoodImg"/>
       <detail-comment-info ref="comment" :comment="comment"/>
-
     </scroll>
-    <detail-bottom-bar/>
+<!--    这个@click.native 是让click点击事件能在自定义主键-->
+    <back-top @click.native="backTop" v-show="srollLongStatus"/>
+    <detail-bottom-bar @addToCart="addToCart"/>
   </div>
 </template>
 
@@ -21,6 +24,8 @@ import DetailSwiper from "@/views/detail/childComps/DetailSwiper";
 import DetailShopInfo from "@/views/detail/childComps/DetailShopInfo";
 import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 import Scroll from "@/components/common/scroll/Scroll";
+import BackTop from "@/components/content/BackTop/BackTop";
+
 import {mixin} from "@/common/mixin";
 import {debounce} from "@/common/utils";
 import {getGoodDetailInfo,Shop,Good} from "@/network/detail";
@@ -41,7 +46,8 @@ name: "Detail",
       itemImgListener:null,
       themeTopY:[],
       getThemeLowY:null,
-      currentIndex:0
+      currentIndex:0,
+      srollLongStatus:false
      // topoffset:0
     }
   },
@@ -54,7 +60,8 @@ name: "Detail",
     DetailShopInfo,
     Scroll,
     DetailCommentInfo,
-    DetailBottomBar
+    DetailBottomBar,
+    BackTop
   },
   created() {
   this.gid = this.$route.params.gid ;
@@ -89,15 +96,28 @@ name: "Detail",
         this.themeTopY.push(this.$refs.shop.$el.offsetTop);
         this.themeTopY.push(this.$refs.detail.$el.offsetTop);
         this.themeTopY.push(this.$refs.comment.$el.offsetTop);
-        console.log(this.themeTopY);
+        // this.themeTopY.push(Number.MAX_VALUE); 用着大的数来凑数 来简化区间判断条件
       },200)
 
     })
   },
 
   methods:{
+    addToCart(){
+      const product = {}
+      product.img = this.goods.gurl;
+      product.title = this.goods.title ;
+      product.introduce = this.goods.introduce ;
+      product.price = this.goods.newprice ;
+      product.id = this.goods.id ;
+      this.$store.commit("addCart",product) ;
+    },
+    backTop(){
+      this.$refs.scroll.scroll.scrollTo(0,0,500) ;
+    },
     contentScroll(position){
       const positionY = -position.y ;
+      this.srollLongStatus = -(position.y) > 800
       for(let i = 0; i< this.themeTopY.length-1 ; i++){
         if(this.currentIndex != i && (positionY >= this.themeTopY[i] && positionY < this.themeTopY[i+1])){
             this.currentIndex = i ;
@@ -105,6 +125,7 @@ name: "Detail",
           this.currentIndex = this.themeTopY.length-1 ;
         }
       }
+
       // switch (-position.y) {
       //   case this.themeTopY[0]:
       //           this.currentIndex = 0; break;

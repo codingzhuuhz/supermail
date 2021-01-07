@@ -7,6 +7,8 @@ export function getGoodDetailInfo(gid){
 }
 export class Good{
     constructor(itemInfo) {
+        this.gurl = itemInfo.gurl;
+        this.id = itemInfo.gid ;
         this.title = itemInfo.gname ;
         this.introduce = itemInfo.gintroduce ;
         this.newprice = itemInfo.gnewprice ;

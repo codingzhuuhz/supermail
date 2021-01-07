@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="bar-item bar-right">
-    <div class="cart" >加入购物车</div>
+    <div class="cart" @click="addToCart" >加入购物车</div>
     <div class="buy">购买</div>
   </div>
 </div>
@@ -23,7 +23,12 @@
 
 <script>
 export default {
-name: "DetailBottomBar"
+name: "DetailBottomBar",
+  methods:{
+    addToCart(){
+      this.$emit("addToCart") ;
+    }
+  }
 }
 </script>
 <style scoped>
@@ -32,7 +37,7 @@ name: "DetailBottomBar"
   height: 49px;
   background-color: #ffffff;
   /*相对原来的位置向上移动49px*/
-  position: relative;
+  position: absolute;
 
   left: 0;
   right: 0;
@@ -67,12 +72,14 @@ name: "DetailBottomBar"
 .bar-right{
   font-size: 15px;
   color:#fff ;
-  line-height: 58px;
+  line-height: 49px;
 }
 .bar-right .cart{
   background-color: #ffe817;
+
 }
 .bar-right .buy{
   background-color: #ff5777;
+  text-align: center;
 }
 </style>
