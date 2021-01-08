@@ -17,14 +17,7 @@
     </select>
         <button type="submit">提交</button>
   </form>
-  <div>
-    <ul>
-      <li v-for="item in this.$store.state.cartList">
-        {{item}}
-      </li>
-    </ul>
 
-  </div>
 </div>
 </template>
 

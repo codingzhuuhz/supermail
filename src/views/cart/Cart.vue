@@ -1,127 +1,21 @@
 <template>
-  <div class="content">
-    <ul>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li><li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li><li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-
-
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li>11</li>
-      <li>1</li>
-      <li>1</li>
-      <li>1</li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li>1</li>
-      <li></li>
-      <li>1</li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li>1</li>
-      <li></li>
-      <li>1</li>
-      <li>1</li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-
-    </ul>
+  <div>
+    <nav-bar class="nav-bar">
+      <div slot="center">购物车({{$store.state.cartList.length}})</div>
+    </nav-bar>
+    <div class="cart-list">
+    <scroll class="content">
+      <cart-list/>
+    </scroll>
+    </div>
   </div>
 </template>
 
 <script>
-import BScroll from 'better-scroll'
+import Scroll from "@/components/common/scroll/Scroll";
+import NavBar from "@/components/common/navbar/NavBar";
+import CartList from "@/views/cart/childComps/CartList";
+import { mapGetters } from 'vuex'
 export default {
   name: "cart",
   data(){
@@ -129,8 +23,17 @@ export default {
         scroll:null
     }
   },
+  components:{
+    NavBar,
+    CartList,
+    Scroll
+  },
   created:{
     // 计算属性是在魔伴属性加载完毕，之后进行加载
+    // 使用对象展开运算符 getter 混入computed 对象之中
+    ...mapGetters({
+      lengt:'cartLength'
+    })
   },
   mounted() {
     //这里模板挂载完毕
@@ -150,9 +53,16 @@ export default {
 </script>
 
 <style scoped>
-.content{
-  height: 200px;
+.nav-bar{
   background-color: #ff5777;
+}
+.cart-list{
+  /*这是地方有点问题*/
+  height: 100vh;
+}
+.content{
+  height: calc(100% - 44px - 49px);
   overflow: hidden;
 }
+
 </style>
