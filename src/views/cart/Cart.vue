@@ -4,10 +4,12 @@
       <div slot="center">购物车({{$store.state.cartList.length}})</div>
     </nav-bar>
     <div class="cart-list">
-    <scroll class="content">
-      <cart-list/>
-    </scroll>
+      <scroll class="content" ref="scroll">
+        <cart-list/>
+      </scroll>
+      <cart-bottom-bar/>
     </div>
+
   </div>
 </template>
 
@@ -15,6 +17,7 @@
 import Scroll from "@/components/common/scroll/Scroll";
 import NavBar from "@/components/common/navbar/NavBar";
 import CartList from "@/views/cart/childComps/CartList";
+import CartBottomBar from "@/views/cart/childComps/CartBottomBar";
 import { mapGetters } from 'vuex'
 export default {
   name: "cart",
@@ -26,9 +29,11 @@ export default {
   components:{
     NavBar,
     CartList,
-    Scroll
+    Scroll,
+    CartBottomBar
   },
   created:{
+
     // 计算属性是在魔伴属性加载完毕，之后进行加载
     // 使用对象展开运算符 getter 混入computed 对象之中
     ...mapGetters({
@@ -48,6 +53,9 @@ export default {
       console.log("上拉加载")
       this.scroll.pullUpLoad.finishPullUp() ;
     })
+  },
+  activated() {
+    this.$refs.scroll.scroll.refresh() ;
   }
 }
 </script>
@@ -61,7 +69,7 @@ export default {
   height: 100vh;
 }
 .content{
-  height: calc(100% - 44px - 49px);
+  height: calc(100% - 44px - 49px - 40px);
   overflow: hidden;
 }
 

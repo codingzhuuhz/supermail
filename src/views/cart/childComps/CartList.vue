@@ -1,6 +1,6 @@
 <template>
 <div>
-  <cart-list-item v-for="item in $store.state.cartList" :itemInfo="item"/>
+  <cart-list-item v-for="(item,index) in $store.state.cartList"  :key="index" :item-info="item"/>
 </div>
 </template>
 
@@ -10,6 +10,9 @@ export default {
 name: "CartList",
   components:{
     CartListItem
+  },
+  activated() {
+    // this.$refs.scroll.scroll.refresh() ;
   }
 }
 </script>

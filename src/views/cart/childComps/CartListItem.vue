@@ -28,7 +28,7 @@ name: "CartListItem",
   },
   props:{
     itemInfo:{
-      type:Object,
+      type: Object,
       default(){
         return {}
       }
@@ -36,7 +36,8 @@ name: "CartListItem",
   },
   methods:{
     isItemChecked(){
-      this.itemInfo.isChecked = !this.this.itemInfo.isChecked
+      this.itemInfo.isChecked = !this.itemInfo.isChecked;
+      console.log(this.itemInfo.isChecked);
     }
   }
 }
