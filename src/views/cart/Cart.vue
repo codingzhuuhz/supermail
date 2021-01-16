@@ -7,7 +7,7 @@
       <scroll class="content" ref="scroll">
         <cart-list/>
       </scroll>
-      <cart-bottom-bar/>
+      <cart-bottom-bar />
     </div>
 
   </div>

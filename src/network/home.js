@@ -7,7 +7,7 @@ export  function getHomeMultidata(){
 export function getHomeGoods(page,type){
     //console.log(page)
     return request2({
-        type: 'get',
+        method: 'post',
         url:'/cors/getGoodInfo',
         params:{
             page:page,

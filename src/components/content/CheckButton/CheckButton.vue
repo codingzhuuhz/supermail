@@ -1,5 +1,5 @@
 <template>
-<div class="check-button" :class="{buttonclick:isChecked}">
+<div class="check-button" :class="{buttonclick: isChecked}">
   <img src="~/assets/img/cart/tick.svg" alt=""  />
 </div>
 </template>
@@ -11,13 +11,12 @@ name: "CheckButton",
     isChecked:{
       type: Boolean,
       default(){
-        return false
+        return {}
       }
     }
   }
 }
 </script>
-
 <style scoped>
 .check-button{
   border-radius: 50%;

@@ -1,7 +1,7 @@
 <template>
 <div class="bottom-bar">
   <div class="allChecked">
-    <check-button/>
+    <check-button @click.native="isAllChecked" :is-checked="isSelect"/>
     <span>全选</span>
   </div>
 
@@ -31,6 +31,20 @@ components:{
     },
     goodnum(){
       return this.$store.state.cartList.filter(item => item.isChecked).length ;
+    },
+    isSelect(){
+      if(this.$store.state.cartList.length == 0) return false
+      return !this.$store.state.cartList.find(item => !item.isChecked)
+      // return !(this.$store.state.cartList.filter(item => !item.isChecked).length) ;
+    }
+  },
+  methods:{
+    isAllChecked(){
+      if(this.isSelect){
+        this.$store.state.cartList.forEach(item => item.isChecked = false)
+      }else{
+        this.$store.state.cartList.forEach(item => item.isChecked = true)
+      }
     }
   }
 }

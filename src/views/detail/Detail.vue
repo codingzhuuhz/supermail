@@ -13,6 +13,8 @@
 <!--    这个@click.native 是让click点击事件能在自定义主键-->
     <back-top @click.native="backTop" v-show="srollLongStatus"/>
     <detail-bottom-bar @addToCart="addToCart"/>
+
+    <toast :message="message" :is-show="isShow"/>
   </div>
 </template>
 
@@ -32,7 +34,8 @@ import {getGoodDetailInfo,Shop,Good} from "@/network/detail";
 import DetailBaseInfo from "@/views/detail/childComps/DetailBaseInfo";
 import DetailGoodInfo from "@/views/detail/childComps/DetailGoodInfo";
 import DetailBottomBar from "@/views/detail/childComps/DetailBottomBar";
-
+import Toast from "@/components/common/Toast/Toast";
+import {mapActions} from 'vuex'
 export default {
 name: "Detail",
   data(){
@@ -47,7 +50,8 @@ name: "Detail",
       themeTopY:[],
       getThemeLowY:null,
       currentIndex:0,
-      srollLongStatus:false
+      srollLongStatus:false,
+
      // topoffset:0
     }
   },
@@ -61,7 +65,8 @@ name: "Detail",
     Scroll,
     DetailCommentInfo,
     DetailBottomBar,
-    BackTop
+    BackTop,
+    Toast
   },
   created() {
   this.gid = this.$route.params.gid ;
@@ -78,7 +83,6 @@ name: "Detail",
       // this.themeTopY.push(this.$refs.shop.$el.offsetTop);
       // this.themeTopY.push(this.$refs.detail.$el.offsetTop);
       // this.themeTopY.push(this.$refs.comment.$el.offsetTop);
-
       //this.$nextTick()依据dom元素染完成之后进行回调
       //问题是dom 加载完成 但是图片并没渲染完成 获取的offsetTop不准确
       // this.$nextTick(() => {
@@ -98,11 +102,14 @@ name: "Detail",
         this.themeTopY.push(this.$refs.comment.$el.offsetTop);
         // this.themeTopY.push(Number.MAX_VALUE); 用着大的数来凑数 来简化区间判断条件
       },200)
-
     })
   },
 
   methods:{
+    // ...mapActions(["addCart"]),
+    // ...mapActions({
+    //   addCart:"addCart"
+    // }),
     addToCart(){
       const product = {}
       product.img = this.goods.gurl;
@@ -110,7 +117,18 @@ name: "Detail",
       product.introduce = this.goods.introduce ;
       product.price = this.goods.newprice ;
       product.id = this.goods.id ;
+      // vuex 里面通知其他组件返回信息使用promise 本组件中调用直接调用 addCart 方法 使用mapActions
+      // this.$store.state.cartList.push(product)
       this.$store.commit("addCart",product) ;
+      // this.addCart(product)
+
+      // this.$store.dispatch('addCart',product)   这个dispatch() 的使用方法
+      //显示提示消息
+      // console.log(this.$toast)
+      this.$toast.show("加入购物车",2000)
+      // this.isShow = true;
+      // this.message = '哈哈哈'
+
     },
     backTop(){
       this.$refs.scroll.scroll.scrollTo(0,0,500) ;
@@ -125,7 +143,6 @@ name: "Detail",
           this.currentIndex = this.themeTopY.length-1 ;
         }
       }
-
       // switch (-position.y) {
       //   case this.themeTopY[0]:
       //           this.currentIndex = 0; break;

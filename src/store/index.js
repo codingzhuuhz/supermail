@@ -12,20 +12,24 @@ const store = new Vuex.Store({
         //mutations中的方法尽可能完成的事件比较单一
 
         //进行重构操作 后期看一下vuex 在进行重构！！！
+
         addCart(state,payload){
-            let oldProduct = null
-            for(let item of state.cartList){
-                if(item.id == payload.id){//数组中已经存在
-                    oldProduct = item ;
+                let oldProduct = null
+                for(let item of state.cartList){
+                    if(item.id == payload.id){//数组中已经存在
+                        oldProduct = item ;
+                    }
                 }
-            }
-            if(oldProduct){
-                oldProduct.count +=1;
-            }else{
-                state.cartList.push(payload)
-                payload.isChecked = true
-                payload.count  = 1 ;
-            }
+                // let oldProduct = state.cartList.find(item => item.id == payload.id)
+                if(oldProduct){
+                    oldProduct.count +=1;
+                    // resolve("商品数量增加")
+                }else{
+                    state.cartList.push(payload)
+                    payload.isChecked = true
+                    payload.count  = 1 ;
+                    // resolve("商品数量添加")
+                }
         }
     }
 })
