@@ -9,7 +9,6 @@
       </scroll>
       <cart-bottom-bar />
     </div>
-
   </div>
 </template>
 
@@ -19,6 +18,8 @@ import NavBar from "@/components/common/navbar/NavBar";
 import CartList from "@/views/cart/childComps/CartList";
 import CartBottomBar from "@/views/cart/childComps/CartBottomBar";
 import { mapGetters } from 'vuex'
+
+import BScroll from 'better-scroll'
 export default {
   name: "cart",
   data(){
@@ -47,11 +48,11 @@ export default {
       pullUpLoad: true
     })
     this.scroll.on('scroll',(position) => {
-      //console.log(position);
+      // console.log(position);
     })
     this.scroll.on('pullingUp',() => {
       console.log("上拉加载")
-      this.scroll.pullUpLoad.finishPullUp() ;
+      this.scroll.finishPullUp() ;
     })
   },
   activated() {

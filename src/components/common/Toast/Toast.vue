@@ -24,7 +24,7 @@ export default {
       console.log("-----");
       this.isShow = true ;
       this.message = message ;
-      setTimeout(function (){
+      setTimeout( () => {
         this.isShow = false
         this.message = ''
       },duration)
